@@ -5,7 +5,7 @@ function setItemSelected(item) {
     if (itemId == "content") {
         return;
     }
-    item.add
+
     item.setAttribute("class", "tree-node tree-node-selected");
 
 }

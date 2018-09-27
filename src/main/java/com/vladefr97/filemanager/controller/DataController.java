@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -41,30 +42,24 @@ public class DataController {
     }
 
 
-    @GetMapping("rootFiles/")
-    public String varIndex(@PathVariable String var) {
-        File[] roots = File.listRoots();
 
-        return "Hi!";
+
+    @RequestMapping("/rootFiles")
+    public FileModel[] rootFiles() {
+        File[] roots = File.listRoots()[0].listFiles();
+        FileModel[] models = new FileModel[roots.length];
+
+        for (int i = 0; i < models.length; i++)
+            models[i] = new FileModel(roots[i].getName(), roots[i].getAbsolutePath(), roots[i].isDirectory());
+        return models;
+
+
     }
 
 
     @RequestMapping("/getFile/{filePath}")
     public FileModel[] getChildFiles(@PathVariable String filePath) {
         System.out.println(filePath);
-        if (filePath.contains("content")) {//returning root files
-            File[] rootFiles = File.listRoots();
-            rootFiles = rootFiles[0].listFiles();
-            FileModel[] rootModels = new FileModel[rootFiles.length];
-            for (int i = 0; i < rootModels.length; i++)
-                rootModels[i] = new FileModel(rootFiles[i].getName(), rootFiles[i].getAbsolutePath(), rootFiles[i].isDirectory());
-
-            if (rootModels != null)
-                System.out.println("send");
-
-            return rootModels;
-
-        }
         filePath = filePath.replace("<prefix>", "/");
 
         System.out.println(filePath);
@@ -80,17 +75,15 @@ public class DataController {
     }
 
     @RequestMapping("/getFileText/{filePath}")
-    public String getFileText(@PathVariable String filePath)  {
+    public String getFileText(@PathVariable String filePath) {
 
         filePath = filePath.replace("<prefix>", "/");
         String result = null;
         try {
             result = readUsingScanner(filePath);
-        }
-        catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             return e.toString();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
