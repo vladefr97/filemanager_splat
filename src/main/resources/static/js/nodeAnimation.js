@@ -1,6 +1,6 @@
 function nodeAnimaiton(element) {
     var isDirectory = $(element).attr("data-isDirectory");
-    var isClicked = $(element).attr("data-clicked");
+
     if (isDirectory == "true") {
         if (isClicked == "true")
             collapseNode(element);
@@ -26,6 +26,7 @@ function collapseNode(element) {
 }
 
 function openNode(element) {
+    element.setAttribute("data-clicked", "false");
     var img = element.childNodes[0];
     img.style.display="none";
    // element.removeChild(img);
@@ -35,7 +36,16 @@ function openNode(element) {
 
 }
 
-function animateFile(element) {
 
+
+function fileAnimation(element) {
+
+}
+function directoryAnimation(element) {
+    var isClicked = $(element).attr("data-clicked");
+    if (isClicked == "true")
+        collapseNode(element);
+    else
+        openNode(element);
 }
 

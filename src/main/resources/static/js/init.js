@@ -1,5 +1,13 @@
+
+
+//
 $(document).ready(function () {
+
+   /* $("#content").sortable();
+    $("#content").disableSelection();*/
     displayRootFiles();
+
+
 });
 
 function displayRootFiles() {
@@ -33,17 +41,27 @@ function displayRootFiles() {
                 }
                 //outerDiv.setAttribute("class","out-div");
                 divElement.setAttribute("data-isDirectory", files[i].directory.toString());
-                divElement.setAttribute("onclick", "getDataFromAPI(this)");
-                divElement.setAttribute("class", "tree-node");
+                divElement.setAttribute("ondblclick", "displayNode(this)");
+                divElement.setAttribute("class", "tree-node ui-state-default");
                 divElement.setAttribute("data-clicked", "false");
                 divElement.id = files[i].absolutePath;
                 spanElement.innerText = files[i].fileName;
                 divElement.appendChild(img);
                 divElement.appendChild(spanElement);
+                //$(divElement).draggable();
+
                 liElement.appendChild(divElement);
+
                 // liElement.appendChild(pElement);
                 ulElement.appendChild(liElement);
+                /*liElement.setAttribute("class","ui-state-default");*/
+                ulElement.setAttribute("id","sortable");
+                $(ulElement).sortable({
+                    connectWith: ".tree-node"
+                }).disableSelection();
+
             }
+
 
             var content = document.getElementById("content");
 

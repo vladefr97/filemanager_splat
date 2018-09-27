@@ -43,7 +43,7 @@ function getDataFromAPI(element) {
                     }
                     //outerDiv.setAttribute("class","out-div");
                     divElement.setAttribute("data-isDirectory", files[i].directory.toString());
-                    divElement.setAttribute("onclick", "getDataFromAPI(this)");
+                    divElement.setAttribute("ondblclick", "displayNode(this)");
                     divElement.setAttribute("class", "tree-node");
                     divElement.setAttribute("data-clicked", "false");
                     divElement.id = files[i].absolutePath;
@@ -55,6 +55,9 @@ function getDataFromAPI(element) {
 
                     // liElement.appendChild(pElement);
                     ulElement.appendChild(liElement);
+                    $(ulElement).sortable({
+                        connectWith: ".tree-node"
+                    });
                 }
 
 

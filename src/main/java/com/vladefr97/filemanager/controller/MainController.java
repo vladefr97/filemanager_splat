@@ -30,6 +30,10 @@ public class MainController {
 
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
     public String index(Model model){
 
         File [] roots = File.listRoots();
