@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -42,8 +43,6 @@ public class DataController {
     }
 
 
-
-
     @RequestMapping("/rootFiles")
     public FileModel[] rootFiles() {
         File[] roots = File.listRoots()[0].listFiles();
@@ -65,6 +64,7 @@ public class DataController {
         System.out.println(filePath);
         File file = new File("/" + filePath);
 
+
         File[] resultFiles = file.listFiles();
         if (resultFiles == null) return null;
         FileModel[] fileModels = new FileModel[resultFiles.length];
@@ -75,19 +75,27 @@ public class DataController {
     }
 
     @RequestMapping("/getFileText/{filePath}")
-    public String getFileText(@PathVariable String filePath) {
+    public String getFileText(@PathVariable String filePath) throws IOException {
 
         filePath = filePath.replace("<prefix>", "/");
-        String result = null;
-        try {
-            result = readUsingScanner(filePath);
-        } catch (AccessDeniedException e) {
-            return e.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Desktop desktop = null;
+        if (Desktop.isDesktopSupported()) {
+            desktop = Desktop.getDesktop();
+            desktop.open(new File(filePath));
+            return "";
+        } else {
+
+            String result = null;
+            try {
+                result = readUsingScanner(filePath);
+            } catch (AccessDeniedException e) {
+                return e.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return result;
         }
 
-        return result;
 
     }
 
