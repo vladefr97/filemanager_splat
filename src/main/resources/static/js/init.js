@@ -3,8 +3,8 @@
 //
 $(document).ready(function () {
 
-   /* $("#content").sortable();
-    $("#content").disableSelection();*/
+    /* $("#content").sortable();
+     $("#content").disableSelection();*/
     displayRootFiles();
 
 
@@ -24,10 +24,11 @@ function displayRootFiles() {
             var answer = request.responseText;
             var files = JSON.parse(answer);
 
-            var ulElement = document.createElement('ul');
+            var olElement = document.createElement('ol');
 
             for (var i = 0; i < files.length; i++) {
                 var liElement = document.createElement('li');
+
                 var divElement = document.createElement('div');
                 var spanElement = document.createElement('span');
                 var img = document.createElement('img');
@@ -42,6 +43,7 @@ function displayRootFiles() {
                 //outerDiv.setAttribute("class","out-div");
                 divElement.setAttribute("data-isDirectory", files[i].directory.toString());
                 divElement.setAttribute("ondblclick", "displayNode(this)");
+                divElement.setAttribute("onclick","setItemSelected(this)");
                 divElement.setAttribute("class", "tree-node ui-state-default");
                 divElement.setAttribute("data-clicked", "false");
                 divElement.id = files[i].absolutePath;
@@ -53,25 +55,25 @@ function displayRootFiles() {
                 liElement.appendChild(divElement);
 
                 // liElement.appendChild(pElement);
-                ulElement.appendChild(liElement);
+                olElement.appendChild(liElement);
                 /*liElement.setAttribute("class","ui-state-default");*/
-                ulElement.setAttribute("id","sortable");
-                $(ulElement).sortable({
+                olElement.setAttribute("class","sortable");
+                /*$(olElement).sortable({
                     connectWith: ".tree-node"
-                }).disableSelection();
-
+                });
+                $(olElement).droppable();
+                $(olElement).disableSelection();*/
             }
 
 
             var content = document.getElementById("content");
 
-            $(ulElement).appendTo(content);
-
+            $(olElement).appendTo(content);
+            setSortable();
         }
-
 
     };
 
-}
 
+}
 

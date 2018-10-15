@@ -29,7 +29,7 @@ function openNode(element) {
     element.setAttribute("data-clicked", "false");
     var img = element.childNodes[0];
     img.style.display="none";
-   // element.removeChild(img);
+    // element.removeChild(img);
     var loader = document.createElement('div');
     loader.setAttribute("class", "loader");
     $(loader).appendTo(element);
@@ -48,4 +48,3 @@ function directoryAnimation(element) {
     else
         openNode(element);
 }
-

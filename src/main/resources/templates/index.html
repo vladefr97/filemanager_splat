@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
     <title>Title</title>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
+
     <script src="js/init.js" type="text/javascript" rel="script"></script>
     <script src="js/getFiles.js" type="text/javascript" rel="script"></script>
     <script src="js/getTextFile.js" type="text/javascript" rel="script"></script>
@@ -14,15 +19,22 @@
     <script src="js/modalWindowVisualization.js" type="text/javascript" rel="script"></script>
     <script src="js/nodeAnimation.js" type="text/javascript" rel="script"></script>
     <script src="js/displayNode.js" type="text/javascript" rel="script"></script>
-
+    <script src="js/createNewFile.js" type="text/javascript" rel="script"></script>
+    <script src="js/ajax/renameFile.js" type="text/javascript" rel="script"></script>
+    <script src="js/copyFile.js" type="text/javascript" rel="script"></script>
+    <script src="js/ajax/doCopyFileRequest.js" type="text/javascript"></script>
+    <script src="js/base-elements/showPrompt.js" type="text/javascript" rel="script"></script>
     <link href="css/common.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
 
 </head>
 <body>
+<div class="prompt">
+</div>
 
+<h1 class="header-text">File Manager</h1>
 
-<h1>File Manager</h1>
 
 <!--<script>
     $(function () {
@@ -30,18 +42,64 @@
         $("#sortable").disableSelection();
     });
 </script>-->
-<div id="content" class="treeview ">
+
+<div class="container-fluid">
+
+    <div class="main-buttons">
+        <button type="button" class="btn btn-success" onclick="displayCreateWindow(false)">Создать папку
+        </button>
+        <button type="button" class="btn btn-primary" onclick="displayCreateWindow(true)">Создать файл</button>
+        <button type="button" class="btn btn-warning" onclick="displayRenameWindow()">Переименовать файл
+        </button>
+        <button type="button" class="btn btn-danger">Удалить файл</button>
+    </div>
 
 
+
+    <div class="row">
+
+        <div id="content" class="treeview ">
+
+
+        </div>
+
+    </div>
 </div>
 
 
-<!--<div class="modal-window" id="modal">
+<div class="modal-window" id="modal">
+    <span class="close">&times;</span>
     <div class="modal-content">
     </div>
-    <span class="close">&times;</span>
-</div>-->
 
+</div>
+
+<div id="create-window" class="modal-window">
+
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <input type="text" value="Введите имя файла">
+
+        <div class="buttons-group">
+            <button id="create-file-button" class="btn btn-success">Сохранить</button>
+            <button id="cancel-create-button" class="btn btn-dark">Отменить</button>
+        </div>
+    </div>
+
+</div>
+<div id="rename-window" class="modal-window">
+
+    <div class="modal-content">
+        <span id="close-rename" class="close">&times;</span>
+        <input type="text" value="Введите имя файла">
+
+        <div class="buttons-group">
+            <button id="rename-file-button" class="btn btn-success">Сохранить</button>
+            <button id="cancel-rename-button" class="btn btn-dark">Отменить</button>
+        </div>
+    </div>
+
+</div>
 
 
 <!--<ul id="content">
@@ -70,6 +128,8 @@
 <div id="hellopreloader"><div id="hellopreloader_preload"></div><p><a href="http://hello-site.ru">Hello-Site.ru. Бесплатный конструктор сайтов.</a></p></div>
 <script type="text/javascript">var hellopreloader = document.getElementById("hellopreloader_preload");function fadeOutnojquery(el){el.style.opacity = 1;var interhellopreloader = setInterval(function(){el.style.opacity = el.style.opacity - 0.05;if (el.style.opacity <=0.05){ clearInterval(interhellopreloader);hellopreloader.style.display = "none";}},16);}window.onload = function(){setTimeout(function(){fadeOutnojquery(hellopreloader);},1000);};</script>
 -->
+<script src="js/sortable.js" rel="script" type="text/javascript"></script>
+
 
 </body>
 </html>

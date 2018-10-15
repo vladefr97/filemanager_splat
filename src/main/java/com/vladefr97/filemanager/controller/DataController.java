@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import com.vladefr97.filemanager.entity.FileModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.vladefr97.filemanager.entity.Message;
+import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.io.File;
@@ -55,6 +53,38 @@ public class DataController {
 
     }
 
+    @RequestMapping(value = "/renameFile", method = RequestMethod.GET)
+    public Message renameFile(@RequestParam("directory") String directoryName, @RequestParam("oldFileName") String oldFileName, @RequestParam("newFileName") String newFileName) {
+        File file = new File(oldFileName);
+        newFileName = directoryName + "/" + newFileName;
+        boolean done = file.renameTo(new File(newFileName));
+        if (done)
+            return new Message("Файл успешно переименован", true);
+        else
+            return new Message("Не удалось переименовать файл...", false);
+    }
+
+    @RequestMapping(value = "/createFile", method = RequestMethod.POST)
+    public Message createFile(@RequestParam("directory") String directoryName, @RequestParam("fileName") String fileName, @RequestParam("isFile") boolean isFile) {
+        String filePath = directoryName + "/" + fileName;
+        File file = new File(filePath);
+        boolean done;
+        if (isFile) {
+            try {
+                done = file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new Message(e.getMessage(), false);
+            }
+        } else {
+            done = file.mkdir();
+        }
+        System.out.println(directoryName);
+        System.out.println(fileName);
+        if (done)
+            return new Message("Файл успешно создан!", true);
+        else return new Message("Не удалось создать файл", false);
+    }
 
     @RequestMapping("/getFile/{filePath}")
     public FileModel[] getChildFiles(@PathVariable String filePath) {
@@ -72,6 +102,11 @@ public class DataController {
         for (int i = 0; i < fileModels.length; i++)
             fileModels[i] = new FileModel(resultFiles[i].getName(), resultFiles[i].getAbsolutePath(), resultFiles[i].isDirectory());
         return fileModels;
+    }
+
+    @RequestMapping(value = "/copyFile", method = RequestMethod.GET)
+    public Message copyFile(@RequestParam("targetFile") String targetPath, @RequestParam("sourceFile") String sourcePath) {
+        return new Message("Fucked",false);
     }
 
     @RequestMapping("/getFileText/{filePath}")

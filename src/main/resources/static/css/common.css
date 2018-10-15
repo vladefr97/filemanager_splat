@@ -3,4 +3,6 @@
 @import "base/loader.css";
 @import "base/modalWindow.css";
 @import "base/treeNode.css";
+@import "base/prompt.css";
 @import "proj/list.css";
+@import "proj/mainButtons.css";

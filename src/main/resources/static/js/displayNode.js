@@ -16,6 +16,9 @@ function displayDirectory(element) {
 
     },1000);
 }
-function displayFile() {
+function displayFile(element) {
+    var filePath = $(element).attr('id');
+
+    getFileText(filePath)
 
 }
