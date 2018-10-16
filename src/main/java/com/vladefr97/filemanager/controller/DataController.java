@@ -42,6 +42,21 @@ public class DataController {
 
     }
 
+    @RequestMapping(value = "/getNodeFiles", method = RequestMethod.GET)
+    public FileModel[] getNodeFiles(@RequestParam("filePath") String filePath) {
+
+        File file = new File("/" + filePath);
+
+
+        File[] resultFiles = file.listFiles();
+        if (resultFiles == null) return null;
+        FileModel[] fileModels = new FileModel[resultFiles.length];
+
+        for (int i = 0; i < fileModels.length; i++)
+            fileModels[i] = new FileModel(resultFiles[i].getName(), resultFiles[i].getAbsolutePath(), resultFiles[i].isDirectory());
+        return fileModels;
+    }
+
     @RequestMapping(value = "/renameFile", method = RequestMethod.GET)
     public Message renameFile(@RequestParam("directory") String directoryName, @RequestParam("oldFileName") String oldFileName, @RequestParam("newFileName") String newFileName) {
         File file = new File(oldFileName);
@@ -74,7 +89,7 @@ public class DataController {
         else return new Message("Не удалось создать файл", false);
     }
 
-    @RequestMapping("/getFile/{filePath}")
+   /* @RequestMapping("/getFile/{filePath}")
     public FileModel[] getChildFiles(@PathVariable String filePath) {
         filePath = filePath.replace("<prefix>", "/");
 
@@ -89,7 +104,7 @@ public class DataController {
         for (int i = 0; i < fileModels.length; i++)
             fileModels[i] = new FileModel(resultFiles[i].getName(), resultFiles[i].getAbsolutePath(), resultFiles[i].isDirectory());
         return fileModels;
-    }
+    }*/
 
     @RequestMapping(value = "/copyFile", method = RequestMethod.GET)
     public Message copyFile(@RequestParam("targetFile") String targetPath, @RequestParam("sourceFile") String sourcePath) {
@@ -111,7 +126,29 @@ public class DataController {
 
     }
 
-    @RequestMapping("/getFileText/{filePath}")
+    @RequestMapping("/getTextFile")
+    public String getTextFile(@RequestParam("filePath") String filePath) throws IOException {
+
+        Desktop desktop = null;
+        if (Desktop.isDesktopSupported()) {
+            desktop = Desktop.getDesktop();
+            desktop.open(new File(filePath));
+            return "";
+        } else {
+
+            String result = null;
+            try {
+                result = readUsingScanner(filePath);
+            } catch (AccessDeniedException e) {
+                return e.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
+
+ /*   @RequestMapping("/getFileText/{filePath}")
     public String getFileText(@PathVariable String filePath) throws IOException {
 
         filePath = filePath.replace("<prefix>", "/");
@@ -134,7 +171,7 @@ public class DataController {
         }
 
 
-    }
+    }*/
 
     private static void copy(File target, File source) throws IOException, AccessDeniedException {
 

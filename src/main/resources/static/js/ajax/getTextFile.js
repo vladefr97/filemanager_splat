@@ -1,6 +1,6 @@
 function getFileText(filePath) {
 
-    var request = new XMLHttpRequest();
+  /*  var request = new XMLHttpRequest();
     var url = "getFileText/" + filePath.toString().replace(new RegExp("/", "g"), "<prefix>");
     request.open("GET", url);
     request.send();
@@ -12,7 +12,17 @@ function getFileText(filePath) {
             var answer = request.responseText;
             displayModalWindow(answer);
         }
-    }
+    }*/
+
+        $.get(
+            "/getTextFile",
+            {
+                filePath: filePath
+            },
+            function (answer) {
+                displayModalWindow(answer);
+            }
+        );
 
 
 }

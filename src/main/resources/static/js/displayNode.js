@@ -12,7 +12,7 @@ function displayDirectory(element) {
         var img = element.childNodes[0];
         img.style.display="inline";
         element.removeChild(element.childNodes[2]);
-        getDataFromAPI(element);
+        getFiles(element);
 
     },1000);
 }
