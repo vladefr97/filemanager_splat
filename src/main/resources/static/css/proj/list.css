@@ -1,9 +1,9 @@
 ul {
-    border-left: 1px dotted blue;
+    border-left: 1px dotted white;
     margin-left: 20px;
     padding-left: 20px;
 
-    /* list-style-image: url("https://icon-icons.com/icons2/548/PNG/32/1455554839_line-60_icon-icons.com_53339.png");*/
+      /* list-style-image: url("https://icon-icons.com/icons2/548/PNG/32/1455554839_line-60_icon-icons.com_53339.png");*/
 
 }
 
@@ -11,6 +11,6 @@ li {
     list-style-type: none;
 }
 
-li .tree-node{
+li .tree-node {
     margin-left: 5px;
 }

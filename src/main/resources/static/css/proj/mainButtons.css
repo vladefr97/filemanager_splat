@@ -1,4 +1,4 @@
-.main-buttons{
+.main-buttons {
     width: 540px;
     position: fixed;
     bottom: 5px;
@@ -7,6 +7,78 @@
     margin-left: auto;
     margin-right: auto;
     z-index: 2;
-    background-color: rgba(0,0,0,0.3);
-    box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.button.green {
+    color: #fff;
+    background-color: rgba(35, 184, 27, 0.48);
+    border-color: #4cae4c;
+
+}
+
+.button.blue {
+    color: #fff;
+    background-color: rgba(51, 122, 183, 0.49);
+    border-color: #2e6da4;
+}
+
+.button.yellow {
+    color: #fff;
+    background-color: rgba(240, 173, 78, 0.49);
+    border-color: #eea236;
+}
+
+.button.red {
+    color: #fff;
+    background-color: rgba(217, 83, 79, 0.49);
+    border-color: #d43f3a;
+}
+
+.button.green:hover {
+    color: #fff;
+    background-color: rgba(35, 184, 27, 0.78);
+    border-color: #4cae4c;
+
+}
+
+.button.blue:hover {
+    color: #fff;
+    background-color: rgba(51, 122, 183, 0.78);
+    border-color: #2e6da4;
+}
+
+.button.yellow:hover {
+    color: #fff;
+    background-color: rgba(240, 173, 78, 0.78);
+    border-color: #eea236;
+}
+
+.button.red:hover {
+    color: #fff;
+    background-color: rgba(217, 83, 79, 0.78);
+    border-color: #d43f3a;
 }
