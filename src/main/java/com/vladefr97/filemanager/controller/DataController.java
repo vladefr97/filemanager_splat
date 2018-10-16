@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.vladefr97.filemanager.entity.FileModel;
 import com.vladefr97.filemanager.entity.Message;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Scanner;
 
 @RestController
@@ -106,7 +108,21 @@ public class DataController {
 
     @RequestMapping(value = "/copyFile", method = RequestMethod.GET)
     public Message copyFile(@RequestParam("targetFile") String targetPath, @RequestParam("sourceFile") String sourcePath) {
-        return new Message("Fucked",false);
+
+        File target = new File(targetPath);
+        File source = new File(sourcePath);
+        if (!target.isDirectory())
+            return new Message("Нельзя копировать в файл...", false);
+        else {
+            try {
+                copy(target, source);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Message(e.toString(), false);
+            }
+        }
+        return new Message("Файл удачно скопирован...", true);
+
     }
 
     @RequestMapping("/getFileText/{filePath}")
@@ -132,6 +148,20 @@ public class DataController {
         }
 
 
+    }
+
+    private static void copy(File target, File source) throws IOException, AccessDeniedException {
+
+        File copyFile = new File(target.getAbsolutePath() + "/" + source.getName());
+        if (source.isDirectory()) {
+            copyFile.mkdir();
+            for (File child : Objects.requireNonNull(source.listFiles()))
+                copy(copyFile, child);
+
+        } else {
+            copyFile.createNewFile();
+            FileCopyUtils.copy(source, copyFile);
+        }
     }
 
     private static String readUsingScanner(String fileName) throws IOException {
