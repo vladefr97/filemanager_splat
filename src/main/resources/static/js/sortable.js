@@ -1,4 +1,3 @@
-var check = false;
 var elem;
 
 function setSortable() {
@@ -9,10 +8,8 @@ function setSortable() {
 
 
             change: function () {
-                if (!check) {
-                    check = true;
-                    elem = document.getElementsByClassName("ui-sortable-helper")[0];
-                }
+                elem = document.getElementsByClassName("ui-sortable-helper")[0];
+
             },
             update: function () {
 

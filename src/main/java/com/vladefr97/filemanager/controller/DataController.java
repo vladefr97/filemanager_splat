@@ -19,26 +19,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 @RestController
 public class DataController {
+    private static Logger log = Logger.getLogger(DataController.class.getName());
 
     public static void main(String[] args) {
-
-      /*  File[] roots = File.listRoots();
-
-       Date start = new Date();
-        System.out.println("Start: " + start);
-
-        File[] subfiles = roots[0].listFiles();
-        FileModel rootFile = new FileModel(roots[0].getName(), roots[0].getAbsolutePath(), roots[0].isDirectory(), subfiles.length);
-
-        for(int i=0;i<subfiles.length;i++){
-            FileModel.addNode(rootFile.getChildFile(i),rootFile,i,subfiles[i]);
-        }
-
-        System.out.println("Start:"+ start);
-        System.out.println("Finish:" + new Date());*/
 
     }
 
@@ -81,8 +68,7 @@ public class DataController {
         } else {
             done = file.mkdir();
         }
-        System.out.println(directoryName);
-        System.out.println(fileName);
+        log.info("opend " + fileName);
         if (done)
             return new Message("Файл успешно создан!", true);
         else return new Message("Не удалось создать файл", false);
@@ -90,10 +76,9 @@ public class DataController {
 
     @RequestMapping("/getFile/{filePath}")
     public FileModel[] getChildFiles(@PathVariable String filePath) {
-        System.out.println(filePath);
         filePath = filePath.replace("<prefix>", "/");
 
-        System.out.println(filePath);
+        log.info("opened " + filePath);
         File file = new File("/" + filePath);
 
 
@@ -108,9 +93,9 @@ public class DataController {
 
     @RequestMapping(value = "/copyFile", method = RequestMethod.GET)
     public Message copyFile(@RequestParam("targetFile") String targetPath, @RequestParam("sourceFile") String sourcePath) {
-
         File target = new File(targetPath);
         File source = new File(sourcePath);
+        log.info("Started copying...");
         if (!target.isDirectory())
             return new Message("Нельзя копировать в файл...", false);
         else {
@@ -121,6 +106,7 @@ public class DataController {
                 return new Message(e.toString(), false);
             }
         }
+        log.info("Finished copying...");
         return new Message("Файл удачно скопирован...", true);
 
     }
@@ -152,6 +138,7 @@ public class DataController {
 
     private static void copy(File target, File source) throws IOException, AccessDeniedException {
 
+        log.info("copying " + source.getAbsolutePath());
         File copyFile = new File(target.getAbsolutePath() + "/" + source.getName());
         if (source.isDirectory()) {
             copyFile.mkdir();
