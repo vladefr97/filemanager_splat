@@ -1,4 +1,5 @@
 function getNodeFiles(filePath, element) {
+    /*Request in order to get the child files of the directory*/
     $.get(
         "/getNodeFiles",
         {

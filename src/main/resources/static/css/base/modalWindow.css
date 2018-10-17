@@ -1,5 +1,5 @@
 .modal-window {
-    display: none;
+      display: none;
     position: fixed;
     left: 0;
     top: 0;
@@ -12,23 +12,20 @@
 }
 
 .modal-content {
+    position: relative;
     background-color: #fefefe;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    height: 60%;
-    margin-top: 50px;
-    margin-left: 9%;
-
-}
-
-#modal .modal-content{
     width: 500px;
     height: 200px;
-    margin: 50px auto;
-    overflow: hidden;
+    left: 0;
+    right: 0;
+    margin: 100px auto;
+
 }
-#modal input{
+
+
+.modal-content input{
     width:430px;
     height:40px;
     margin: 30px auto;
@@ -36,62 +33,26 @@
     padding-left:5px;
 }
 
-#modal .buttons-group{
+.modal-content .buttons-group{
     margin-top:20px;
     margin-left:240px;
 }
-#modal span{
+.modal-content span{
     position: absolute;
+    font-size: 30px;
     top:15px;
-    right:25px;
-}
-#modal span:hover{
-    cursor: pointer;
-}
-.rename-window,.create-window {
-    position: fixed;
-    left: 0;
-    right: 0;
-    margin: 50px auto;
-    border: 2px solid #2196f3;
-    width: 370px;
-    padding-left: 20px;
-    font-size: 15px;
-    font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
-
-    /*display:none;*/
-    background-color: white;
-    z-index:100;
-
-}
-
-.rename-window,.create-window input[type="text"] {
-
-    display: block;
-    margin-bottom: 20px;
-    margin-top: 5px;
-    width: 320px;
-    height: 40px;
-    border-radius: 5px 5px 5px 5px;
-    border: 2px solid #2196f3;
-    box-shadow: inset 1px 1px 5px #2196f3;
-    font-size: 20px;
-    font-weight: normal;
-    padding-left: 5px;
-
-}
-
-.rename-window,.create-window button{
-    position: absolute;
     right:30px;
-    bottom: 10px;
-    padding: 5px 20px;
-    border: 2px solid #2196f3;
-    background-color: white;
-    color: #2196f3;
+}
+.modal-content span:hover{
+    cursor: pointer;
+}
+.modal-window.dialog-window .modal-content{
+    width:300px;
+    height:150px;
 
 }
-.rename-window,.create-window button:hover{
+.modal-window.dialog-window .buttons-group{
+    margin-left:40px;
+    margin-top:40px;
 
-    cursor: pointer;
 }

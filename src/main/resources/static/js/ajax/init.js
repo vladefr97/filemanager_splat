@@ -1,28 +1,16 @@
-
-
-//
 $(document).ready(function () {
 
-    /* $("#content").sortable();
-     $("#content").disableSelection();*/
+    /*Displaying the root files of the computer*/
     displayRootFiles();
-
 
 });
 
 function displayRootFiles() {
 
-    var request = new XMLHttpRequest();
-    var url = "/rootFiles";
-    request.open("GET", url);
-    request.send();
-
-
-    request.onreadystatechange = function () {
-        if (request.readyState == 4 && request.status == 200)//request
-        {
-            var answer = request.responseText;
-            var files = JSON.parse(answer);
+    /*Sending request to server*/
+    $.get(
+        "/rootFiles",
+        function (files) {
 
             var olElement = document.createElement('ol');
 
@@ -40,40 +28,27 @@ function displayRootFiles() {
                     img.setAttribute("src", "https://icon-icons.com/icons2/93/PNG/32/page_document_16748.png")
 
                 }
-                //outerDiv.setAttribute("class","out-div");
+
+                /*creating views of the received files*/
                 divElement.setAttribute("data-isDirectory", files[i].directory.toString());
                 divElement.setAttribute("ondblclick", "displayNode(this)");
-                divElement.setAttribute("onclick","setItemSelected(this)");
+                divElement.setAttribute("onclick", "setItemSelected(this)");
                 divElement.setAttribute("class", "tree-node ui-state-default");
                 divElement.setAttribute("data-clicked", "false");
                 divElement.id = files[i].absolutePath;
                 spanElement.innerText = files[i].fileName;
                 divElement.appendChild(img);
                 divElement.appendChild(spanElement);
-                //$(divElement).draggable();
-
                 liElement.appendChild(divElement);
-
-                // liElement.appendChild(pElement);
                 olElement.appendChild(liElement);
-                /*liElement.setAttribute("class","ui-state-default");*/
-                olElement.setAttribute("class","sortable");
-                /*$(olElement).sortable({
-                    connectWith: ".tree-node"
-                });
-                $(olElement).droppable();
-                $(olElement).disableSelection();*/
+                olElement.setAttribute("class", "sortable");
+
             }
-
-
             var content = document.getElementById("content");
-
             $(olElement).appendTo(content);
             setSortable();
         }
-
-    };
-
+    );
 
 }
 

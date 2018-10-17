@@ -1,6 +1,5 @@
 function doCopyFileRequest(target, source, treeNode) {
-
-
+    /*copy file request to the server*/
     $.get(
         "/copyFile",
         {

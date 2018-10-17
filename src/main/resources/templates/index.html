@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
 
-    <script src="js/init.js" type="text/javascript" rel="script"></script>
+    <script src="js/ajax/init.js" type="text/javascript" rel="script"></script>
     <script src="js/getFiles.js" type="text/javascript" rel="script"></script>
     <script src="js/ajax/getTextFile.js" type="text/javascript" rel="script"></script>
     <script src="js/treeVisualization.js" type="text/javascript" rel="script"></script>
@@ -26,70 +26,11 @@
     <script src="js/base-elements/loader.js" type="text/javascript" rel="script"></script>
     <script src="js/ajax/getNodeFIles.js" type="text/javascript" rel="script"></script>
     <script src="js/ajax/createNewFIle.js" type="text/javascript" rel="script"></script>
+    <script src="js/ajax/deleteFile.js" type="text/javascript" rel="script"></script>
     <link href="css/common.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300" type="text/css"/>
 
-
-    <!--<style>
-        body {
-            width: 100%;
-            height: 90%;
-            color: #fff;
-            background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-            background-size: 400% 400%;
-            -webkit-animation: Gradient 15s ease infinite;
-            -moz-animation: Gradient 15s ease infinite;
-            animation: Gradient 15s ease infinite;
-        }
-
-        @-webkit-keyframes Gradient {
-            0% {
-                background-position: 0% 50%
-            }
-            50% {
-                background-position: 100% 50%
-            }
-            100% {
-                background-position: 0% 50%
-            }
-        }
-
-        @-moz-keyframes Gradient {
-            0% {
-                background-position: 0% 50%
-            }
-            50% {
-                background-position: 100% 50%
-            }
-            100% {
-                background-position: 0% 50%
-            }
-        }
-
-        @keyframes Gradient {
-            0% {
-                background-position: 0% 50%
-            }
-            50% {
-                background-position: 100% 50%
-            }
-            100% {
-                background-position: 0% 50%
-            }
-        }
-
-        h1,
-        h6 {
-            font-family: 'Open Sans';
-            font-weight: 300;
-            text-align: center;
-          /*  position: absolute;
-            top: 45%;
-            right: 0;
-            left: 0;*/
-        }
-    </style>-->
 </head>
 <body>
 
@@ -97,14 +38,6 @@
 </div>
 
 <h1 class="header-text">File Manager</h1>
-
-
-<!--<script>
-    $(function () {
-        $("#sortable").sortable();
-        $("#sortable").disableSelection();
-    });
-</script>-->
 
 <div class="container-fluid">
 
@@ -114,9 +47,8 @@
         <button type="button" class="button blue" onclick="displayCreateWindow(true)">Создать файл</button>
         <button type="button" class="button yellow" onclick="displayRenameWindow()">Переименовать файл
         </button>
-        <button type="button" class="button red">Удалить файл</button>
+        <button type="button" class="button red" onclick="displayDeleteWindow()">Удалить файл</button>
     </div>
-
 
 
     <div class="row">
@@ -159,6 +91,17 @@
         <div class="buttons-group">
             <button id="rename-file-button" class="btn btn-success">Сохранить</button>
             <button id="cancel-rename-button" class="btn btn-dark">Отменить</button>
+        </div>
+    </div>
+
+</div>
+<div id="delete-window" class="modal-window dialog-window">
+
+    <div class="modal-content">
+        <span id="close-delete" class="close">&times;</span>
+        <div class="buttons-group">
+            <button id="delete-file-button" class="btn btn-danger">Удалить</button>
+            <button id="cancel-delete-button" class="btn btn-dark">Отменить</button>
         </div>
     </div>
 

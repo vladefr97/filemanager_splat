@@ -12,32 +12,28 @@ import java.io.File;
 public class MainController {
 
 
-
-
     public static void main(String[] args) {
-        File [] roots = File.listRoots();
+        File[] roots = File.listRoots();
+        for (File file : roots) {
+            File dir = new File(file.getAbsolutePath());
+            File[] subfiles = dir.listFiles();
 
+            for (File item : subfiles)
 
-
-        for(File file:roots){
-          File dir = new File(file.getAbsolutePath());
-          File[] subfiles = dir.listFiles();
-
-          for (File item: subfiles)
-
-              System.out.println(item.getAbsolutePath());
+                System.out.println(item.getAbsolutePath());
         }
 
     }
 
     @GetMapping("/test")
-    public String test(){
+    public String test() {
         return "test";
     }
-    public String index(Model model){
 
-        File [] roots = File.listRoots();
-        model.addAttribute("files",roots);
+    public String index(Model model) {
+
+        File[] roots = File.listRoots();
+        model.addAttribute("files", roots);
         return "index";
     }
 

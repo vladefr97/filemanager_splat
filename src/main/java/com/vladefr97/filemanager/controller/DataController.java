@@ -15,10 +15,8 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -30,6 +28,7 @@ public class DataController {
     }
 
 
+    /*Getting root files on the computer*/
     @RequestMapping("/rootFiles")
     public FileModel[] rootFiles() {
         File[] roots = File.listRoots()[0].listFiles();
@@ -42,6 +41,7 @@ public class DataController {
 
     }
 
+    /*Getting subfiles of the selected file*/
     @RequestMapping(value = "/getNodeFiles", method = RequestMethod.GET)
     public FileModel[] getNodeFiles(@RequestParam("filePath") String filePath) {
 
@@ -57,6 +57,7 @@ public class DataController {
         return fileModels;
     }
 
+    /*Rename file */
     @RequestMapping(value = "/renameFile", method = RequestMethod.GET)
     public Message renameFile(@RequestParam("directory") String directoryName, @RequestParam("oldFileName") String oldFileName, @RequestParam("newFileName") String newFileName) {
         File file = new File(oldFileName);
@@ -68,6 +69,29 @@ public class DataController {
             return new Message("Не удалось переименовать файл...", false);
     }
 
+    /*Delete file*/
+    @RequestMapping(value = "/deleteFile", method = RequestMethod.GET)
+    public Message renameFile(@RequestParam("filePath") String FilePath) {
+        ArrayList<Boolean> results = new ArrayList<>();
+        try {
+            File file = new File(FilePath);
+            results = deleteFile(file, results);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message("Не удалось удалить файл...", false);
+        }
+
+        if (!results.contains(true))
+            return new Message("Не удалось удалить файл...", false);
+        else if (results.contains(false))
+            return new Message("Не все файлы были удалены...", true);
+        else
+            return new Message("Файл успешно удален...", true);
+
+    }
+
+
+    /*Create file*/
     @RequestMapping(value = "/createFile", method = RequestMethod.POST)
     public Message createFile(@RequestParam("directory") String directoryName, @RequestParam("fileName") String fileName, @RequestParam("isFile") boolean isFile) {
         String filePath = directoryName + "/" + fileName;
@@ -83,29 +107,14 @@ public class DataController {
         } else {
             done = file.mkdir();
         }
-        log.info("opend " + fileName);
+        log.info("opened " + fileName);
         if (done)
             return new Message("Файл успешно создан!", true);
         else return new Message("Не удалось создать файл", false);
     }
 
-   /* @RequestMapping("/getFile/{filePath}")
-    public FileModel[] getChildFiles(@PathVariable String filePath) {
-        filePath = filePath.replace("<prefix>", "/");
 
-        log.info("opened " + filePath);
-        File file = new File("/" + filePath);
-
-
-        File[] resultFiles = file.listFiles();
-        if (resultFiles == null) return null;
-        FileModel[] fileModels = new FileModel[resultFiles.length];
-
-        for (int i = 0; i < fileModels.length; i++)
-            fileModels[i] = new FileModel(resultFiles[i].getName(), resultFiles[i].getAbsolutePath(), resultFiles[i].isDirectory());
-        return fileModels;
-    }*/
-
+    /*Copy file to another directory with all subfiles*/
     @RequestMapping(value = "/copyFile", method = RequestMethod.GET)
     public Message copyFile(@RequestParam("targetFile") String targetPath, @RequestParam("sourceFile") String sourcePath) {
         File target = new File(targetPath);
@@ -126,6 +135,8 @@ public class DataController {
 
     }
 
+
+    /*Get the content of the file*/
     @RequestMapping("/getTextFile")
     public String getTextFile(@RequestParam("filePath") String filePath) throws IOException {
 
@@ -148,31 +159,19 @@ public class DataController {
         }
     }
 
- /*   @RequestMapping("/getFileText/{filePath}")
-    public String getFileText(@PathVariable String filePath) throws IOException {
 
-        filePath = filePath.replace("<prefix>", "/");
-        Desktop desktop = null;
-        if (Desktop.isDesktopSupported()) {
-            desktop = Desktop.getDesktop();
-            desktop.open(new File(filePath));
-            return "";
-        } else {
+    /*Recursive deleting of all subfiles*/
+    private static ArrayList<Boolean> deleteFile(File file, ArrayList<Boolean> results) {
+        File[] childDirs = file.listFiles();
+        if (file.isDirectory() && (childDirs.length != 0)) {
+            for (File item : childDirs)
+                results.addAll(deleteFile(item, results));
+            results.add(file.delete());
+        } else results.add(file.delete());
+        return results;
+    }
 
-            String result = null;
-            try {
-                result = readUsingScanner(filePath);
-            } catch (AccessDeniedException e) {
-                return e.toString();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-
-    }*/
-
+    /*Recursive copying of all subfiles*/
     private static void copy(File target, File source) throws IOException, AccessDeniedException {
 
         log.info("copying " + source.getAbsolutePath());
@@ -188,6 +187,7 @@ public class DataController {
         }
     }
 
+    /*Reading the content of the file*/
     private static String readUsingScanner(String fileName) throws IOException {
         Scanner scanner = new Scanner(Paths.get(fileName), StandardCharsets.UTF_8.name());
         //здесь мы можем использовать разделитель, например: "\\A", "\\Z" или "\\z"
@@ -196,32 +196,4 @@ public class DataController {
         return data;
     }
 
-   /* @RequestMapping("/getFiles")
-    public FileModel getFiles() throws IOException {
-
-        ObjectMapper mapper = new ObjectMapper();
-        File[] roots = File.listRoots();
-
-        Date start = new Date();
-        System.out.println("Start: " + start);
-
-        File[] subfiles = roots[0].listFiles();
-        FileModel rootFile = new FileModel(roots[0].getName(), roots[0].getAbsolutePath(), roots[0].isDirectory(), subfiles.length);
-
-        for(int i=0;i<subfiles.length;i++){
-            FileModel.addNode(rootFile.getChildFile(i),rootFile,i,subfiles[i]);
-        }
-
-        System.out.println("Start:"+ start);
-        System.out.println("Finish:" + new Date());
-*//*
-        StringWriter writer = new StringWriter();
-
-        mapper.writeValue(writer, rootFile);
-        String result = writer.toString();*//*
-
-
-        return rootFile;
-
-    }*/
 }

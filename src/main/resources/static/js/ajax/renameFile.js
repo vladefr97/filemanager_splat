@@ -1,5 +1,5 @@
 function renameFile(dirName, oldFile, newFile) {
-
+    /*rename file request*/
     $.get(
         "/renameFile",
         {

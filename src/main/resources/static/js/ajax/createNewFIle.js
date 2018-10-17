@@ -1,6 +1,7 @@
 function createFile(fileName, directoryName, isFile) {
 
 
+    /*Request for creating new file*/
     $.post(
         "/createFile",
         {

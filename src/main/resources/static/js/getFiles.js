@@ -1,6 +1,5 @@
 function getFiles(element) {
 
-
     var isDir = ($(element)).attr("data-isDirectory");
     element.setAttribute("data-clicked", "true");
     setItemSelected(element);

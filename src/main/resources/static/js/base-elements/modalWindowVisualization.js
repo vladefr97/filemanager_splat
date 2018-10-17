@@ -37,22 +37,17 @@ function displayCreateWindow(isFile) {
             var selectedDirectory = document.getElementsByClassName("tree-node-selected")[0];
             var isDirectory = $(selectedDirectory).attr("data-isdirectory");
             if (selectedDirectory === undefined || isDirectory === "false") {
-                alert("Выберите папку");
-                return;
+                showPrompt("Выберите родительскую папку...", false);
+                span.click();
             }
-
-
             createFile(fileName, $(selectedDirectory).attr('id'), isFile);
-
-
             span.click();
-            if(selectedDirectory.hasChildNodes()) {
+            if (selectedDirectory.hasChildNodes()) {
                 displayNode(selectedDirectory);
                 displayNode(selectedDirectory);
-            }else{
+            } else {
                 displayNode(selectedDirectory);
             }
-
 
         }
 
@@ -64,8 +59,6 @@ function displayCreateWindow(isFile) {
     };
 
     modal.style.display = "block";
-    /*var modalContent = document.getElementsByClassName("modal-content")[0];
-    modalContent.innerText = text;*/
 }
 
 function displayRenameWindow() {
@@ -91,8 +84,8 @@ function displayRenameWindow() {
             var fileName = textInput.value;
             var selectedDirectory = document.getElementsByClassName("tree-node-selected")[0];
             if (selectedDirectory === undefined) {
-                alert("Выберите файл");
-                return;
+                showPrompt("Выберите файл...", false);
+                span.click();
             }
 
             var currFile = document.getElementsByClassName("tree-node-selected")[0];
@@ -106,6 +99,45 @@ function displayRenameWindow() {
         }
     };
     cancelRenameBtn.onclick = function () {
+
+        modal.style.display = "none";
+    };
+
+    modal.style.display = "block";
+
+
+}
+
+function displayDeleteWindow() {
+    var modal = document.getElementById("delete-window");
+    var span = document.getElementById("close-delete");
+    var deleteFileBtn = document.getElementById("delete-file-button");
+    var cancelDeleteBtn = document.getElementById("cancel-delete-button");
+
+    span.onclick = function () {
+        modal.style.display = "none";
+
+    };
+
+    deleteFileBtn.onclick = function () {
+
+        var selectedDirectory = document.getElementsByClassName("tree-node-selected")[0];
+        if (selectedDirectory === undefined) {
+            showPrompt("Выберите файл...", false);
+            span.click();
+        }
+
+        var currFile = document.getElementsByClassName("tree-node-selected")[0];
+        var parentDir = currFile.parentElement.parentElement.parentElement.childNodes[0];
+        deleteFile($(selectedDirectory).attr('id'));
+
+        span.click();
+        displayNode(parentDir);
+        displayNode(parentDir);
+
+
+    };
+    cancelDeleteBtn.onclick = function () {
 
         modal.style.display = "none";
     };

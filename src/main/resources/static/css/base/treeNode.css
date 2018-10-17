@@ -21,7 +21,7 @@
     border-radius: 3px;
 }
 
-.tree-node:hover{
+.tree-node:hover {
     cursor: pointer;
     background-color: rgba(134, 196, 247, 0.5);
     border-radius: 3px;
