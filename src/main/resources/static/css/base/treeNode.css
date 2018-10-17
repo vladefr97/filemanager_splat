@@ -10,16 +10,17 @@
     position: absolute;
     left: 40px;
     top: 10px;
-    color: white;
+    color: #333;
     font-family: 'Open Sans';
     font-weight: bold;
 
 }
 
 .tree-node-selected {
-    background-color: rgba(255, 251, 216, 0.55);
+    background-color: rgba(58, 66, 222, 0.6);
     border-radius: 3px;
 }
+
 
 .tree-node:hover {
     cursor: pointer;
